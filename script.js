@@ -1,5 +1,6 @@
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
+const boardWrapper = document.querySelector(".board-wrapper");
 
 if (!CanvasRenderingContext2D.prototype.roundRect) {
   CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
@@ -115,6 +116,8 @@ const render = {
   offsetY: 0,
 };
 
+let resizeTimer = null;
+
 init();
 
 function init() {
@@ -124,6 +127,7 @@ function init() {
     shuffleBoard();
   });
   restartBtn.addEventListener("click", () => startLevel(1));
+  window.addEventListener("resize", handleResize);
   startLevel(1);
 }
 
@@ -192,12 +196,17 @@ function buildGrid(cols, rows) {
 
 function resizeCanvas() {
   const { cols, rows } = state;
-  const maxWidth = 720;
-  const maxHeight = 432;
+  if (!cols || !rows) return;
 
-  const tileWidth = maxWidth / cols;
-  const tileHeight = maxHeight / rows;
-  render.tileSize = Math.floor(Math.min(tileWidth, tileHeight));
+  const wrapperWidth = boardWrapper?.clientWidth || canvas.parentElement?.clientWidth || window.innerWidth || 720;
+  const availableWidth = Math.min(Math.max(wrapperWidth, 240), 960);
+
+  const viewportHeight = window.innerHeight || 720;
+  const availableHeight = Math.max(Math.min(viewportHeight - 240, 640), 220);
+
+  const tileWidth = availableWidth / cols;
+  const tileHeight = availableHeight / rows;
+  render.tileSize = Math.floor(Math.min(tileWidth, tileHeight, 96));
 
   canvas.width = render.tileSize * cols;
   canvas.height = render.tileSize * rows;
@@ -205,8 +214,9 @@ function resizeCanvas() {
   render.offsetX = 0;
   render.offsetY = 0;
 
-  canvas.style.width = `${canvas.width}px`;
-  canvas.style.height = `${canvas.height}px`;
+  canvas.style.width = "100%";
+  canvas.style.maxWidth = `${canvas.width}px`;
+  canvas.style.height = "auto";
 }
 
 function renderBoard() {
@@ -545,6 +555,17 @@ function gridToCanvasCenter(col, row) {
   }
 
   return { x: centerX, y: centerY };
+}
+
+function handleResize() {
+  if (!state.cols || !state.rows) return;
+  if (resizeTimer) {
+    clearTimeout(resizeTimer);
+  }
+  resizeTimer = setTimeout(() => {
+    resizeCanvas();
+    renderBoard();
+  }, 120);
 }
 
 function shuffleArray(array) {
