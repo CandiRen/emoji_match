@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emoji Match</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top-bar">
+      <h1>Emoji Match</h1>
+      <div class="hud">
+        <span class="hud__item">Level: <strong id="level">1</strong></span>
+        <span class="hud__item">Time: <strong id="timer">00:00</strong></span>
+        <button id="shuffle" class="button">Shuffle</button>
+      </div>
+    </header>
+
+    <main class="board-wrapper">
+      <canvas id="board" width="720" height="432" aria-label="Emoji Match board"></canvas>
+      <p id="status" role="status" class="status-message"></p>
+    </main>
+
+    <footer class="controls">
+      <button id="restart" class="button button--primary">Restart</button>
+    </footer>
+  </div>
+
+  <template id="level-notice-template">
+    <div class="level-notice">
+      <p class="level-notice__title">Level <span data-ref="level"></span> cleared!</p>
+      <button data-action="next-level" class="button button--primary">Next Level</button>
+    </div>
+  </template>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
