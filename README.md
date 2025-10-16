@@ -25,7 +25,11 @@ Tekan `Ctrl+C` di terminal untuk menghentikan server.
 - `index.html` — rangka HTML utama, kanvas permainan, dan kontrol.
 - `styles.css` — tampilan gelap bernuansa neon serta tata letak responsif.
 - `script.js` — logika permainan, termasuk pembangkitan papan, pencarian jalur, timer, dan level.
+- `image/Gameplay 1.png` — tangkapan layar contoh permainan.
 
 ## Kustomisasi
 - Ubah kumpulan emoji pada konstanta `EMOJI_POOL` di `script.js` untuk tema berbeda.
 - Sesuaikan tingkat kesulitan dengan mengedit `LEVEL_SETTINGS`, yang mengontrol ukuran papan dan waktu level.
+
+## Pratinjau
+![Gameplay Emoji Match](image/Gameplay%201.png)
